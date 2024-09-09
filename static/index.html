@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Routing Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, button {
+            margin: 5px 0;
+        }
+        #routes {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Routing Application</h1>
+
+    <h2>Add Student</h2>
+    <form id="studentForm">
+        <input type="text" id="studentName" placeholder="Name" required><br>
+        <input type="text" id="studentAddress" placeholder="Address" required><br>
+        <input type="text" id="studentSpecialNeeds" placeholder="Special Needs"><br>
+        <button type="submit">Add Student</button>
+    </form>
+
+    <h2>Add School</h2>
+    <form id="schoolForm">
+        <input type="text" id="schoolName" placeholder="Name" required><br>
+        <input type="text" id="schoolAddress" placeholder="Address" required><br>
+        <input type="time" id="schoolStartTime" required><br>
+        <input type="time" id="schoolEndTime" required><br>
+        <button type="submit">Add School</button>
+    </form>
+
+    <h2>Generate Routes</h2>
+    <button id="generateRoutes">Generate Routes</button>
+
+    <h2>Routes</h2>
+    <pre id="routes"></pre>
+
+    <script>
+        document.getElementById('studentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            fetch('/students', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: document.getElementById('studentName').value,
+                    address: document.getElementById('studentAddress').value,
+                    special_needs: document.getElementById('studentSpecialNeeds').value
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Student added successfully');
+                this.reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('schoolForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            fetch('/schools', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: document.getElementById('schoolName').value,
+                    address: document.getElementById('schoolAddress').value,
+                    start_time: document.getElementById('schoolStartTime').value,
+                    end_time: document.getElementById('schoolEndTime').value
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('School added successfully');
+                this.reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('generateRoutes').addEventListener('click', function() {
+            fetch('/routes')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('routes').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
