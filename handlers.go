@@ -61,11 +61,18 @@ func addSchool(c *gin.Context) {
 // generateRoutes creates bus routes based on the students and schools we have
 // It's called when a GET request is made to /routes
 func generateRoutes(c *gin.Context) {
-	// Call the createRoutes function to generate routes
-	// This function is likely defined in another file
 	// Get all students and schools from the data store
-	students := dataStore.GetStudents()
-	schools := dataStore.GetSchools()
+	students, err := dataStore.GetStudents()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve students"})
+		return
+	}
+
+	schools, err := dataStore.GetSchools()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve schools"})
+		return
+	}
 
 	// Generate routes using the createRoutes function (defined elsewhere)
 	routes := createRoutes(students, schools)
