@@ -25,8 +25,3 @@ type Route struct {
 	Students []Student `json:"students"` // A slice (dynamic array) of Student structs
 	School   School    `json:"school"`   // The School this route is for
 }
-
-// These variables will store our data
-// In a real application, we'd probably use a database instead
-var students []Student // A slice to hold all our students
-var schools []School   // A slice to hold all our schools

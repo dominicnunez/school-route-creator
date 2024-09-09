@@ -21,11 +21,15 @@ func addStudent(c *gin.Context) {
 		return
 	}
 
-	// Add the new student to our slice of students
-	// Note: 'students' is likely defined in another file (e.g., models.go)
-	students = append(students, newStudent)
+	// Add the new student
+	err := dataStore.AddStudent(newStudent)
+	if err != nil {
+		// If there's an error, return a 500 Internal Server Error
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 
-	// Return a 201 Created status with the newly created student
+	// If successful, return the new student data with a 201 Created status
 	c.JSON(http.StatusCreated, newStudent)
 }
 
@@ -42,11 +46,15 @@ func addSchool(c *gin.Context) {
 		return
 	}
 
-	// Add the new school to our slice of schools
-	// Note: 'schools' is likely defined in another file (e.g., models.go)
-	schools = append(schools, newSchool)
+	// Add the new school
+	err := dataStore.AddSchool(newSchool)
+	if err != nil {
+		// If there's an error, return a 500 Internal Server Error
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
 
-	// Return a 201 Created status with the newly created school
+	// If successful, return the new school data with a 201 Created status
 	c.JSON(http.StatusCreated, newSchool)
 }
 
@@ -55,6 +63,11 @@ func addSchool(c *gin.Context) {
 func generateRoutes(c *gin.Context) {
 	// Call the createRoutes function to generate routes
 	// This function is likely defined in another file
+	// Get all students and schools from the data store
+	students := dataStore.GetStudents()
+	schools := dataStore.GetSchools()
+
+	// Generate routes using the createRoutes function (defined elsewhere)
 	routes := createRoutes(students, schools)
 
 	// Return the generated routes with a 200 OK status

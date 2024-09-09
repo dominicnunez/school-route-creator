@@ -6,8 +6,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// dataStore is a global variable that will hold our chosen data store
+var dataStore DataStore
+
 // main function is the entry point of our Go program
 func main() {
+	// Choose data store based on configuration
+	// In a real application, this might come from environment variables or a config file
+	useJSONFiles := true // This is a boolean flag to determine which store to use
+
+	// Initialize the appropriate data store
+	if useJSONFiles {
+		dataStore = NewJSONStore("students.json", "schools.json")
+	} else {
+		dataStore = NewMemoryStore()
+	}
+
 	// Create a default Gin router
 	// This sets up a new Gin engine with the default middleware
 	r := gin.Default()
