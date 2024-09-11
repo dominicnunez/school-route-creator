@@ -1,13 +1,15 @@
-// Package main contains the main application logic
-package main
+// Package service contains the business logic for creating bus routes.
+package service
+
+import "route-creator/internal/model"
 
 // createRoutes generates bus routes based on the provided students and schools
 // It takes two slices as input: one for students and one for schools
 // It returns a slice of Route structs
-func createRoutes(students []Student, schools []School) []Route {
+func CreateRoutes(students []model.Student, schools []model.School) []model.Route {
 	// Initialize a slice of Route structs with the same length as the schools slice
 	// This creates one route per school
-	routes := make([]Route, len(schools))
+	routes := make([]model.Route, len(schools))
 
 	// Iterate over the schools slice
 	// The range keyword is used for iteration in Go
@@ -15,8 +17,8 @@ func createRoutes(students []Student, schools []School) []Route {
 	for i, school := range schools {
 		// Create a new Route for each school
 		// The Students field is initialized as an empty slice
-		routes[i] = Route{
-			Students: []Student{},
+		routes[i] = model.Route{
+			Students: []model.Student{},
 			School:   school,
 		}
 	}

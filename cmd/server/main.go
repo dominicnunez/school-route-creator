@@ -1,13 +1,14 @@
-// Package main is the entry point of our application
+// Package main is the entry point of our route creation application.
+// It sets up the web server and initializes the necessary components.
 package main
 
 // Import the Gin web framework
 import (
+	"route-creator/internal/data"
+	"route-creator/internal/handler"
+
 	"github.com/gin-gonic/gin"
 )
-
-// dataStore is a global variable that will hold our chosen data store
-var dataStore DataStore
 
 // main function is the entry point of our Go program
 func main() {
@@ -15,12 +16,18 @@ func main() {
 	// In a real application, this might come from environment variables or a config file
 	useJSONFiles := true // This is a boolean flag to determine which store to use
 
+	// dataStore is a variable that will hold our chosen data store
+	var dataStore data.DataStore
+
 	// Initialize the appropriate data store
 	if useJSONFiles {
-		dataStore = NewJSONStore("students.json", "schools.json")
+		dataStore = data.NewJSONStore("students.json", "schools.json")
 	} else {
-		dataStore = NewMemoryStore()
+		dataStore = data.NewMemoryStore()
 	}
+
+	// Create a new Handler instance
+	h := handler.NewHandler(dataStore)
 
 	// Create a default Gin router
 	// This sets up a new Gin engine with the default middleware
@@ -43,15 +50,15 @@ func main() {
 
 	// POST /students: Add a new student
 	// The addStudent function (defined elsewhere) will handle this request
-	r.POST("/students", addStudent)
+	r.POST("/students", h.AddStudent)
 
 	// POST /schools: Add a new school
 	// The addSchool function (defined elsewhere) will handle this request
-	r.POST("/schools", addSchool)
+	r.POST("/schools", h.AddSchool)
 
 	// GET /routes: Generate and return routes
 	// The generateRoutes function (defined elsewhere) will handle this request
-	r.GET("/routes", generateRoutes)
+	r.GET("/routes", h.GenerateRoutes)
 
 	// Start the server and listen on port 8080
 	// If there's an error starting the server, it will be logged
