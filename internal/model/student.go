@@ -4,7 +4,20 @@ package model
 // Student struct represents a student's information
 // The `json:` tags specify how these fields should be named in JSON
 type Student struct {
-	Name         string `json:"name"`          // Student's full name
-	Address      string `json:"address"`       // Student's home address
-	SpecialNeeds string `json:"special_needs"` // Any special needs or requirements the student has
+	FirstName         string `json:"first_name"`
+	MiddleName        string `json:"middle_name,omitempty"` // Optional field
+	LastName          string `json:"last_name"`
+	StudentID         int    `json:"student_id"`
+	SchoolName        string `json:"school_name"`
+	SchoolID          int    `json:"school_id"`
+	Grade             string `json:"grade"`
+	SpecialNeeds      bool   `json:"special_needs"`         // Indicate if student is special needs
+	NeedsNotes        string `json:"needs_notes,omitempty"` // Notes for special needs
+	GuardianPrimary   string `json:"guardian_primary"`
+	PrimaryPhone      string `json:"primary_phone"`
+	GuardianSecondary string `json:"guardian_secondary,omitempty"`
+	SecondaryPhone    string `json:"secondary_phone,omitempty"`
+	BusStop           string `json:"bus_stop"`
+	AMStop            bool   `json:"am_stop"`
+	PMStop            bool   `json:"pm_stop"`
 }
