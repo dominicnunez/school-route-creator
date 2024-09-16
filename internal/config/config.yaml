@@ -1,0 +1,9 @@
+# Specify the data store to use for the application
+# Available options:
+#   "memory" - Use an in-memory data store (not persistent, suitable for development/testing)
+#   "json"   - Use JSON files for data storage (persistent, suitable for small-scale applications)
+#   <blank>  - Use a production-ready data store (e.g., database, not implemented yet)
+dataStore: memory
+
+# Additional configuration options can be added here
+# ...

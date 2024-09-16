@@ -2,28 +2,32 @@
 // It sets up the web server and initializes the necessary components.
 package main
 
-// Import the Gin web framework
 import (
+	"route-creator/internal/config"
 	"route-creator/internal/data"
 	"route-creator/internal/handler"
 
 	"github.com/gin-gonic/gin"
 )
 
-// main function is the entry point of our Go program
 func main() {
+	// Load the configuration
+	cfg, err := config.LoadConfig()
+	if err != nil {
+		// Handle the error
+		panic(err)
+	}
+
 	// Choose data store based on configuration
-	// In a real application, this might come from environment variables or a config file
-	useJSONFiles := true // This is a boolean flag to determine which store to use
-
-	// dataStore is a variable that will hold our chosen data store
 	var dataStore data.DataStore
-
-	// Initialize the appropriate data store
-	if useJSONFiles {
-		dataStore = data.NewJSONStore("students.json", "schools.json")
-	} else {
+	switch cfg.DataStore {
+	case "memory":
 		dataStore = data.NewMemoryStore()
+	case "json":
+		dataStore = data.NewJSONStore("students.json", "schools.json")
+	default:
+		// Handle invalid data store type
+		panic("Invalid data store type")
 	}
 
 	// Create a new Handler instance
