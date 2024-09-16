@@ -6,8 +6,9 @@ import "time"
 
 // School struct represents a school's information
 type School struct {
-	Name      string    `json:"name"`       // Name of the school
-	Address   string    `json:"address"`    // Address of the school
-	StartTime time.Time `json:"start_time"` // When school starts (using Go's time.Time type)
-	EndTime   time.Time `json:"end_time"`   // When school ends (using Go's time.Time type)
+	Name        string    `json:"name"`         // Name of the school
+	SchoolID    int       `json:"school_id"`    // Unique identifier for the school
+	AddressID   int       `json:"address_id"`   // Foreign key referencing the address of the school
+	StartTime   time.Time `json:"start_time"`   // When school starts (using Go's time.Time type)
+	ReleaseTime time.Time `json:"release_time"` // When school ends (using Go's time.Time type)
 }

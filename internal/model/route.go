@@ -1,8 +1,11 @@
-// Package model defines the Route struct and related types.
 package model
 
-// Route struct represents a bus route
-type Route struct {
-	Students []Student `json:"students"` // A slice (dynamic array) of Student structs
-	School   School    `json:"school"`   // The School this route is for
+// School struct represents a single school
+// BusRoute struct represents a single bus route
+type BusRoute struct {
+	ID       int    `json:"id"`
+	SchoolID int    `json:"school_id"`
+	Students []int  `json:"student_ids"`
+	Stops    []Stop `json:"stops"`
+	BusType  int    `json:"bus_type"`
 }

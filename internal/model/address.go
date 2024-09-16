@@ -4,6 +4,7 @@ package model
 // Address struct represents a physical address and associated students by ID
 // The `json:` tags specify how these fields should be named in JSON
 type Address struct {
+	ID           int    `json:"id"`
 	StreetNumber int    `json:"street_number"`
 	StreetPrefix string `json:"street_prefix"`
 	StreetName   string `json:"street_name"`
@@ -13,5 +14,4 @@ type Address struct {
 	City         string `json:"city"`
 	State        string `json:"state"`
 	ZipCode      int    `json:"zip_code"`
-	Students     []int  `json:"students"`
 }
