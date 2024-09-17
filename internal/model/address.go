@@ -14,4 +14,5 @@ type Address struct {
 	City         string `json:"city"`
 	State        string `json:"state"`
 	ZipCode      int    `json:"zip_code"`
+	Notes        string `json:"notes,omitempty"` // Optional field
 }

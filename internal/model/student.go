@@ -17,7 +17,7 @@ type Student struct {
 	PrimaryPhone      string `json:"primary_phone"`
 	GuardianSecondary string `json:"guardian_secondary,omitempty"`
 	SecondaryPhone    string `json:"secondary_phone,omitempty"`
-	BusStop           string `json:"bus_stop"`
+	StopID            int    `json:"stop_id"`
 	AMStop            bool   `json:"am_stop"`
 	PMStop            bool   `json:"pm_stop"`
 }
