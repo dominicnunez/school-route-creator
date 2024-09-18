@@ -8,7 +8,7 @@ type Student struct {
 	MiddleName        string `json:"middle_name,omitempty"` // Optional field
 	LastName          string `json:"last_name"`
 	AddressID         int    `json:"address_id"`
-	StudentID         int    `json:"student_id"`
+	ID                int    `json:"student_id"`
 	SchoolID          int    `json:"school_id"`
 	Grade             string `json:"grade"`
 	SpecialNeeds      bool   `json:"special_needs"`         // Indicate if student is special needs

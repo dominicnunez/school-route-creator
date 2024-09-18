@@ -2,71 +2,69 @@
 package handler
 
 import (
-	"net/http"
-	"route-creator/internal/data"    // Import your data package
-	"route-creator/internal/model"   // Import your model package
-	"route-creator/internal/service" // Import your service package
+    "net/http"
+    "route-creator/internal/data"    // Import your data package
+    "route-creator/internal/model"   // Import your model package
+    "route-creator/internal/service" // Import your service package
 
-	// Add any other necessary imports
-
-	"github.com/gin-gonic/gin"
+    "github.com/gin-gonic/gin"
 )
 
 type Handler struct {
-	DataStore data.DataStore
+    DataStore data.DataStore
+    LegCreator service.LegCreator
+    RouteCreator service.RouteCreator
 }
 
-func NewHandler(ds data.DataStore) *Handler {
-	return &Handler{DataStore: ds}
-}
-
-func (h *Handler) AddStudent(c *gin.Context) {
-	var newStudent model.Student
-
-	if err := c.BindJSON(&newStudent); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	err := h.DataStore.AddStudent(newStudent)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusCreated, newStudent)
-}
-
-func (h *Handler) AddSchool(c *gin.Context) {
-	var newSchool model.School
-
-	if err := c.BindJSON(&newSchool); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	err := h.DataStore.AddSchool(newSchool)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusCreated, newSchool)
+func NewHandler(ds data.DataStore, lc service.LegCreator, rc service.RouteCreator) *Handler {
+    return &Handler{
+        DataStore: ds,
+        LegCreator: lc,
+        RouteCreator: rc,
+    }
 }
 
 func (h *Handler) GenerateRoutes(c *gin.Context) {
-	students, err := h.DataStore.GetStudents()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve students"})
-		return
-	}
+    students, err := h.DataStore.GetStudents()
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve students"})
+        return
+    }
 
-	schools, err := h.DataStore.GetSchools()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve schools"})
-		return
-	}
+    schools, err := h.DataStore.GetSchools()
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve schools"})
+        return
+    }
 
-	routes := service.CreateRoutes(students, schools)
-	c.JSON(http.StatusOK, routes)
+    var allLegs []model.Leg
+
+    for _, school := range schools {
+        // Get the students attending this school
+        schoolStudents := getStudentsForSchool(students, school)
+
+        // Create the legs for this school (both AM and PM)
+        amLegs := h.LegCreator.CreateLegs(school, schoolStudents, service.AM)
+        pmLegs := h.LegCreator.CreateLegs(school, schoolStudents, service.PM)
+
+        // Append the legs to allLegs
+        allLegs = append(allLegs, amLegs...)
+        allLegs = append(allLegs, pmLegs...)
+    }
+
+    // Create routes from all legs
+    routes := h.RouteCreator.CreateRoutes(allLegs)
+
+    c.JSON(http.StatusOK, routes)
+}
+
+// getStudentsForSchool is a helper function to get the students attending a specific school
+ {
+    var schoolStudents []model.Student
+    for _, student := range students {
+        if student.SchoolID == school.ID {
+            schoolStudents = append(schoolStudents, student)
+        }
+    }
+    return schoolStudents
 }

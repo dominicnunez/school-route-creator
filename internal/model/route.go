@@ -1,11 +1,8 @@
 package model
 
-// School struct represents a single school
-// BusRoute struct represents a single bus route
-type BusRoute struct {
-	RouteID  int    `json:"route_id"`
-	SchoolID int    `json:"school_id"`
-	Students []int  `json:"student_ids"`
-	Stops    []Stop `json:"stops"`
-	BusType  int    `json:"bus_type"`
+// Route struct represents a complete bus route consisting of multiple legs
+type Route struct {
+	ID   int   `json:"id"`
+	Legs []Leg `json:"legs"`
+	// Any other relevant fields for the complete route
 }
