@@ -7,4 +7,5 @@ type Leg struct {
 	Students []int  `json:"student_ids"`
 	Stops    []Stop `json:"stops"`
 	BusType  int    `json:"bus_type"`
+	Shift    Shift  `json:"shift"`
 }

@@ -4,7 +4,6 @@ import "time"
 
 type Stop struct {
 	ID           int       `json:"id"`
-	StopNumber   int       `json:"stop_number"`
 	Intersection string    `json:"intersection"`
 	Corner       string    `json:"corner"`
 	Longitude    float64   `json:"longitude"`

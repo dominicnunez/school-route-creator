@@ -11,12 +11,14 @@ type Student struct {
 	ID                int    `json:"student_id"`
 	SchoolID          int    `json:"school_id"`
 	Grade             string `json:"grade"`
-	SpecialNeeds      bool   `json:"special_needs"`         // Indicate if student is special needs
-	NeedsNotes        string `json:"needs_notes,omitempty"` // Notes for special needs
+	SpecialNeeds      bool   `json:"special_needs"`             // Indicate if student is special needs
+	NeedsNotes        string `json:"needs_notes,omitempty"`     // Notes for special needs
+	NeedsEquipment    string `json:"needs_equipment,omitempty"` // Indicate if student needs equipment
 	GuardianPrimary   string `json:"guardian_primary"`
 	PrimaryPhone      string `json:"primary_phone"`
 	GuardianSecondary string `json:"guardian_secondary,omitempty"`
 	SecondaryPhone    string `json:"secondary_phone,omitempty"`
+	RouteID           int    `json:"route_id"`
 	StopID            int    `json:"stop_id"`
 	AMStop            bool   `json:"am_stop"`
 	PMStop            bool   `json:"pm_stop"`

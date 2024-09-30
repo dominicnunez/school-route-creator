@@ -52,14 +52,6 @@ func main() {
 	// Define API routes for our application
 	// Each route specifies an HTTP method, a path, and a handler function
 
-	// POST /students: Add a new student
-	// The addStudent function (defined elsewhere) will handle this request
-	r.POST("/students", h.AddStudent)
-
-	// POST /schools: Add a new school
-	// The addSchool function (defined elsewhere) will handle this request
-	r.POST("/schools", h.AddSchool)
-
 	// GET /routes: Generate and return routes
 	// The generateRoutes function (defined elsewhere) will handle this request
 	r.GET("/routes", h.GenerateRoutes)
